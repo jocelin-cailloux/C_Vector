@@ -1,16 +1,16 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include "vector.h"
+#include "Vector.h"
 
 Vector *newVector() {
     Vector *vec = malloc(sizeof(Vector));
-    vec->maxEl = 1;
+    vec->maxEl = 2;
     vec->nbEl = 0;
-    vec->items = malloc(sizeof(void *));
+    vec->items = malloc(vec->maxEl*sizeof(void *));
 }
 
-int vector_size(Vector *vec) {
+int vector_length(Vector *vec) {
     return vec->nbEl;
 }
 
@@ -18,11 +18,15 @@ void *vector_get(Vector *vec, int pos) {
     return vec->items[pos];
 }
 
+void *vector_set(Vector *vec, int pos, void *item) {
+    vec->items[pos] = item;
+}
+
 void vector_push(Vector *vec, void *item) {
     if (vec->nbEl == vec->maxEl) {
         vec->maxEl *= 2;
-        vec->items = (void *) realloc(vec->items, vec->maxEl);
-        //assert(vec->items != NULL);
+        vec->items = (void *) realloc(vec->items, vec->maxEl*sizeof(void *));
+        assert(vec->items != NULL);
     }
     vec->items[vec->nbEl] = item;
     vec->nbEl += 1;
@@ -31,7 +35,7 @@ void vector_push(Vector *vec, void *item) {
 void vector_slowPushAt(Vector *vec, int pos, void *item) {
     if (vec->nbEl == vec->maxEl) {
         vec->maxEl *= 2;
-        vec->items = (void *) realloc(vec->items, vec->maxEl);
+        vec->items = (void *) realloc(vec->items, vec->maxEl*sizeof(void *));
         //assert(vec->items != NULL);
     }
     for (int i = vec->nbEl; i > pos ; i -= 1) {
@@ -44,7 +48,7 @@ void vector_slowPushAt(Vector *vec, int pos, void *item) {
 void vector_pushAt(Vector *vec, int pos, void *item) {
     if (vec->nbEl == vec->maxEl) {
         vec->maxEl *= 2;
-        vec->items = (void *) realloc(vec->items, vec->maxEl);
+        vec->items = (void *) realloc(vec->items, vec->maxEl*sizeof(void *));
         //assert(vec->items != NULL);
     }
     vec->items[vec->nbEl] = vec->items[pos];

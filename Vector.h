@@ -12,9 +12,11 @@ Vector *newVector();
 
 typedef void deleteFunction(void *item);
 
-int vector_size(Vector *vec);
+int vector_length(Vector *vec);
 
 void *vector_get(Vector *vec, int pos);
+
+void *vector_set(Vector *vec, int pos, void *item);
 
 void vector_push(Vector *vec, void *item);
 
